@@ -1,0 +1,8 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Noor Salah</string>
+    <string name="title_activity_main">Noor Salah</string>
+    <string name="package_name">com.noor.salah</string>
+    <string name="custom_url_scheme">com.noor.salah</string>
+    <string name="widget_desc">Hijri and Solar dates, prayer times and live countdown</string>
+</resources>

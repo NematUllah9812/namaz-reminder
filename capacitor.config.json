@@ -1,0 +1,14 @@
+{
+  "appId": "com.noor.salah",
+  "appName": "Noor Salah",
+  "webDir": "web",
+  "android": {
+    "allowMixedContent": false
+  },
+  "plugins": {
+    "LocalNotifications": {
+      "smallIcon": "ic_launcher_foreground",
+      "iconColor": "#D4AF37"
+    }
+  }
+}
