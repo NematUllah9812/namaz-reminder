@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="theme-color" content="#06231b">
+<title>Noor Salah — Prayer Reminder</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+</head>
+<body data-period="isha">
+<div class="sky" aria-hidden="true"></div>
+<div class="pattern" aria-hidden="true"></div>
+
+<div id="app">
+
+  <!-- ══ Header ══ -->
+  <header class="head">
+    <p class="basmala">بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ</p>
+    <div class="topbar">
+      <button class="loc-pill" id="locBtn" title="Set location">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 1 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span id="locName">Abbottabad</span>
+      </button>
+      <h1 class="brand">NOOR<span>·</span>SALAH</h1>
+      <button class="icon-btn" id="settingsBtn" title="Settings">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33h0a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51h0a1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82v0a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      </button>
+    </div>
+    <div class="dates">
+      <span class="chip chip-gold" id="hijriDate">—</span>
+      <span class="chip" id="gregDate">—</span>
+    </div>
+  </header>
+
+  <!-- ══ View: Prayers ══ -->
+  <main id="view-prayers">
+    <section class="hero">
+      <div class="hero-arch" aria-hidden="true"></div>
+      <p class="hero-label" id="heroLabel">Upcoming Prayer</p>
+      <h2 class="hero-ar" id="heroAr">—</h2>
+      <div class="hero-ring">
+        <svg class="ring" viewBox="0 0 120 120" aria-hidden="true">
+          <circle class="ring-bg" cx="60" cy="60" r="54"/>
+          <circle class="ring-fg" id="ringFg" cx="60" cy="60" r="54" transform="rotate(-90 60 60)"/>
+        </svg>
+        <div class="ring-center">
+          <p class="countdown" id="countdown">--:--:--</p>
+          <p class="hero-en" id="heroEn">—</p>
+        </div>
+      </div>
+      <p class="hero-time" id="heroTime">—</p>
+    </section>
+
+    <section class="list-head">
+      <h3>Today's Prayers</h3>
+      <p class="list-sub" id="listSub">Tap the circle to mark a prayer as prayed</p>
+    </section>
+    <ul id="prayerList" class="prayer-list"></ul>
+
+    <footer class="foot">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M12 3v3"/><path d="M5.6 6.6l2 2"/><path d="M18.4 6.6l-2 2"/><path d="M4 15h16"/><path d="M7 15a5 5 0 0 1 10 0"/><path d="M2 19h20"/></svg>
+      <p id="footInfo">Times computed on-device · ISNA</p>
+    </footer>
+  </main>
+
+  <!-- ══ View: Calendar ══ -->
+  <main id="view-calendar" class="hidden">
+    <div class="cal-toggle" role="tablist">
+      <button class="seg active" id="modeGreg" role="tab">Solar</button>
+      <button class="seg" id="modeHijri" role="tab">Hijri</button>
+    </div>
+
+    <div class="cal-head">
+      <button class="cal-nav" id="calPrev" title="Previous month">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+      </button>
+      <button class="cal-title" id="calTitle" title="Jump to today">
+        <p class="cal-primary" id="calPrimary">—</p>
+        <p class="cal-secondary" id="calSecondary">—</p>
+      </button>
+      <button class="cal-nav" id="calNext" title="Next month">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
+      </button>
+    </div>
+
+    <div class="cal-week">
+      <span>Su</span><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span class="jum">Fr</span><span>Sa</span>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+
+    <div class="cal-detail" id="calDetail"></div>
+  </main>
+
+  <!-- ══ Tab bar ══ -->
+  <nav class="tabbar">
+    <button class="tab active" data-tab="prayers">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21v-8.5C4 9 6.6 7.6 8 6.2 9.6 4.6 12 3 12 1.8 12 3 14.4 4.6 16 6.2c1.4 1.4 4 2.8 4 6.3V21"/><path d="M2 21h20"/><path d="M9.5 21v-4a2.5 2.5 0 0 1 5 0v4"/></svg>
+      <span>Prayers</span>
+    </button>
+    <button class="tab" data-tab="calendar">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18"/><path d="M8 3v4M16 3v4"/><path d="M15.9 15.2a3 3 0 1 1-1.4-5.8 3.8 3.8 0 1 0 1.4 5.8z"/></svg>
+      <span>Calendar</span>
+    </button>
+  </nav>
+</div>
+
+<!-- ══ Settings sheet ══ -->
+<div class="sheet-overlay" id="sheetOverlay"></div>
+<aside class="sheet" id="sheet" aria-hidden="true">
+  <div class="sheet-grip"></div>
+  <h3 class="sheet-title">Settings</h3>
+
+  <div class="field">
+    <span>Calculation method</span>
+    <button class="selbtn" id="pkMethod">
+      <b id="pkMethodVal">ISNA</b>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </div>
+
+  <div class="field">
+    <span>Asr juristic method</span>
+    <button class="selbtn" id="pkAsr">
+      <b id="pkAsrVal">Hanafi</b>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </div>
+
+  <div class="field">
+    <span>Islamic calendar</span>
+    <button class="selbtn" id="pkHijri">
+      <b id="pkHijriVal">Pakistan · auto</b>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <p class="field-note">Moon sighting is announced, not computed — if the committee's date differs, nudge it here; updates everywhere, including the widget.</p>
+  </div>
+
+  <div class="field">
+    <span>Reminder sound</span>
+    <button class="selbtn" id="pkSound">
+      <b id="pkSoundVal">Notification tone</b>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </div>
+
+  <div class="field">
+    <span>Reminder timing</span>
+    <button class="selbtn" id="pkOffset">
+      <b id="pkOffsetVal">At prayer time</b>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+    <p class="field-note">In Azan mode, the adhan always plays at prayer time.</p>
+  </div>
+
+  <div class="field">
+    <span>Location</span>
+    <button class="btn" id="gpsBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="12" r="7"/><circle cx="12" cy="12" r="2.5"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3"/></svg>
+      Use my device location
+    </button>
+    <p class="field-note" id="gpsNote">Currently: Abbottabad, Pakistan</p>
+  </div>
+
+  <div class="field">
+    <button class="btn btn-gold" id="testBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg>
+      Send a test reminder (5s)
+    </button>
+  </div>
+
+  <p class="about">Noor Salah reminds you at each prayer and stays quiet once you mark it prayed. Home-screen widget: long-press your launcher → Widgets → Noor Salah.<br>Offline city database © GeoNames (CC BY 4.0).</p>
+</aside>
+
+<!-- ══ In-app reminder banner ══ -->
+<div class="toast" id="toast" role="alert">
+  <div class="toast-icon" id="toastIcon"></div>
+  <div class="toast-body">
+    <p class="toast-title" id="toastTitle">—</p>
+    <p class="toast-sub" id="toastSub">—</p>
+  </div>
+  <button class="toast-btn" id="toastBtn">Mark prayed</button>
+</div>
+
+<!-- ══ Themed option picker ══ -->
+<div class="pk-overlay" id="pkOverlay">
+  <div class="pk-card">
+    <div class="sheet-grip"></div>
+    <p class="pk-title" id="pkTitle">—</p>
+    <div class="pk-opts" id="pkOpts"></div>
+  </div>
+</div>
+
+<!-- ══ Azan panel ══ -->
+<div class="azan-overlay" id="azanPanel">
+  <div class="azan-card">
+    <div class="azan-wave" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+    <h3 class="azan-ar" id="azanTitle">الأذان</h3>
+    <p class="azan-sub" id="azanSub">Azan</p>
+    <div class="azan-actions">
+      <button class="azan-btn" id="azanPause"></button>
+      <button class="azan-btn" id="azanMute">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5.5 6.5 9H3v6h3.5L11 18.5z"/><path d="M16 9l5 6M21 9l-5 6"/></svg>
+        <span>Mute</span>
+      </button>
+      <button class="azan-btn gold" id="azanDone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"/></svg>
+        <span>Mark prayed</span>
+      </button>
+    </div>
+    <p class="azan-hint" id="azanHint"></p>
+    <button class="azan-close" id="azanWebClose">Dismiss</button>
+  </div>
+</div>
+
+<!-- ══ Hint pill ══ -->
+<div class="hint" id="hint"></div>
+
+<script src="praytimes.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
